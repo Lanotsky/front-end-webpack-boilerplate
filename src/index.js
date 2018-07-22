@@ -1,2 +1,3 @@
-import "./style.scss";
-console.log('Hello webpack');
+import "./assets/style.scss";
+// import "./index.pug";
+// import "./assets/img/top/40k.jpg";
