@@ -2,6 +2,7 @@ const path = require('path');
 const babel = require('babel-loader');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 
 module.exports = {
@@ -14,9 +15,11 @@ module.exports = {
         path: path.resolve(__dirname, 'dist'),
         publicPath: '/'
     },
+    devtool: 'inline-source-map',
     module: {
         rules: [
             { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" },
+            {test: /\.pug$/, use: ["pug-html-loader"]},
             {
                 test: /\.scss$/,
                 use: [
@@ -26,6 +29,14 @@ module.exports = {
                     "postcss-loader",
                     "sass-loader"
                 ]
+            },
+            { 
+                test: /\.(png|svg|jpg|gif|)$/, 
+                use: ["file-loader"] 
+            },
+            {
+                test: /\.(woff|woff2|eot|ttf|otf)$/,
+                use: ["file-loader"]
             }
           ]
     },
@@ -36,18 +47,23 @@ module.exports = {
           filename: "main.css",
           chunkFilename: "[id].css"
         }),
+        // new HtmlWebpackPlugin({
+        //     minify: {
+        //         collapseWhitespace: true
+        //     },
+        //     template: './src/index.pug'
+        // }),
         new HtmlWebpackPlugin({
-            title: "demo",
-            // minify: {
-            //     collapseWhitespace: true
-            // },
-            hash: true,
+            minify: {
+                collapseWhitespace: true
+            },
             template: './src/index.html'
         }),
         new BrowserSyncPlugin({
             host: 'localhost',
             port: 3000,
             proxy: 'http://localhost:8080/'
-        })
+        }),
+        new CleanWebpackPlugin(['dist']),
     ]
 }
