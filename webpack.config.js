@@ -10,8 +10,9 @@ module.exports = {
         main: './src/index.js'
     },
     output: {
-        filename: '[name].bundle.js',
-        path: path.resolve(__dirname, 'dist')
+        filename: 'assets/js/[name].bundle.js',
+        path: path.resolve(__dirname, 'dist'),
+        publicPath: '/'
     },
     module: {
         rules: [
@@ -19,9 +20,10 @@ module.exports = {
             {
                 test: /\.scss$/,
                 use: [
-                    // fallback to style-loader in development
                     MiniCssExtractPlugin.loader,
+                    "file-loader",
                     "css-loader",
+                    "postcss-loader",
                     "sass-loader"
                 ]
             }
