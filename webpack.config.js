@@ -18,15 +18,20 @@ module.exports = {
     devtool: 'inline-source-map',
     module: {
         rules: [
-            { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" },
-            {test: /\.pug$/, use: ["pug-html-loader"]},
+            {
+                test: /\.js$/,
+                exclude: /(node_modules|bower_components)/,
+                use: {
+                    loader: 'babel-loader',
+                }
+            },
+            // {test: /\.pug$/, use: ["pug-html-loader"]},
             {
                 test: /\.scss$/,
                 use: [
                     MiniCssExtractPlugin.loader,
                     "file-loader",
                     "css-loader",
-                    "postcss-loader",
                     "sass-loader"
                 ]
             },
@@ -42,17 +47,9 @@ module.exports = {
     },
     plugins: [
         new MiniCssExtractPlugin({
-          // Options similar to the same options in webpackOptions.output
-          // both options are optional
           filename: "main.css",
           chunkFilename: "[id].css"
         }),
-        // new HtmlWebpackPlugin({
-        //     minify: {
-        //         collapseWhitespace: true
-        //     },
-        //     template: './src/index.pug'
-        // }),
         new HtmlWebpackPlugin({
             minify: {
                 collapseWhitespace: true
