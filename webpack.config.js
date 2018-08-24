@@ -11,8 +11,9 @@ module.exports = {
         main: './src/index.js'
     },
     output: {
-        filename: '[name].bundle.js',
-        path: path.resolve(__dirname, 'dist')
+        filename: 'assets/js/[name].bundle.js',
+        path: path.resolve(__dirname, 'dist'),
+        publicPath: '/'
     },
     devtool: 'inline-source-map',
     module: {
@@ -23,7 +24,9 @@ module.exports = {
                 test: /\.scss$/,
                 use: [
                     MiniCssExtractPlugin.loader,
+                    "file-loader",
                     "css-loader",
+                    "postcss-loader",
                     "sass-loader"
                 ]
             },
